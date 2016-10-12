@@ -152,6 +152,8 @@ BOOL MSectionLockSimple::Lock(MSectionSimple* apS, DWORD anTimeout/*=-1*/)
 	}
 	_ASSERTEX(apS->IsInitialized());
 	#endif
+	//BUGBUG: Define global pointer to logging function, log "CS_ERROR: Uninitialized"
+	//BUGBUG: Perhaps, need to write error to console!
 
 	bool bLocked = false;
 	DWORD nStartTick = GetTickCount();
@@ -186,6 +188,7 @@ BOOL MSectionLockSimple::Lock(MSectionSimple* apS, DWORD anTimeout/*=-1*/)
 			if (nDelta >= anTimeout)
 			{
 				_ASSERTEX(IsDebuggerPresent() && "Failed to lock CriticalSection, timeout");
+				//BUGBUG: Log timeout warning if logging is enabled (via pointer to logging function)
 				break;
 			}
 		}

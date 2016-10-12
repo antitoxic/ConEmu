@@ -61,6 +61,7 @@ UINT_PTR GetLoadLibraryAddress()
 		return 0;
 	}
 
+	//BUGBUG: Unexpected result, pointer to KernelBase.dll instead of Kernel32.dll while starting Far (AltServer)
 	HMODULE hConEmuHk = ::GetModuleHandle(WIN3264TEST(L"ConEmuHk.dll", L"ConEmuHk64.dll"));
 	if (hConEmuHk && (hConEmuHk != ghOurModule))
 	{
@@ -77,6 +78,7 @@ UINT_PTR GetLoadLibraryAddress()
 		fnLoadLibrary = (UINT_PTR)::GetProcAddress(hKernel, "LoadLibraryW");
 	}
 
+	//BUGBUG: far gets KernelBase.dll
 	// Функция должна быть именно в Kernel32.dll (а не в какой либо другой библиотеке, мало ли кто захукал...)
 	if (!CheckCallbackPtr(hKernel, 1, (FARPROC*)&fnLoadLibrary, TRUE))
 	{

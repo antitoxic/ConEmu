@@ -2291,6 +2291,7 @@ int WINAPI RequestLocalServer(/*[IN/OUT]*/RequestLocalServerParm* Parm)
 	}
 
 	// Если поток RefreshThread был "заморожен" при запуске другого сервера
+	//BUGBUG: Unexpected call from Far
 	ThawRefreshThread();
 
 	TODO("Инициализация TrueColor буфера - Parm->ppAnnotation");
@@ -2330,6 +2331,7 @@ DoEvents:
 
 	if (Parm->Flags & slsf_OnFreeConsole)
 	{
+		//BUGBUG: May be already called above!
 		FreezeRefreshThread();
 	}
 
