@@ -54,7 +54,12 @@ UINT_PTR GetLoadLibraryAddress()
 		return gfnLoadLibrary;
 
 	UINT_PTR fnLoadLibrary = 0;
-	HMODULE hKernel = ::GetModuleHandle(L"kernel32.dll");
+	HMODULE hKernel = ::GetModuleHandle(IsWin8() ? L"KernelBase.dll" : L"kernel32.dll");
+	if (!hKernel && IsWin8())
+	{
+		_ASSERTE(hKernel && "KernelBase is expected to be loaded in Win8");
+		hKernel = ::GetModuleHandle(L"kernel32.dll");
+	}
 	if (!hKernel || LDR_IS_RESOURCE(hKernel))
 	{
 		_ASSERTE(hKernel && !LDR_IS_RESOURCE(hKernel));
